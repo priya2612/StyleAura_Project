@@ -1,0 +1,120 @@
+:root {
+  --primary: #7C3AED;
+  --primary-hover: #6D28D9;
+  --light-purple: #EDE9FE;
+
+  --dark: #2D2A32;
+  --text: #444444;
+
+  --background: #FAFAFC;
+  --white: #FFFFFF;
+  --border: #E8E8F0;
+}
+
+body{
+    background: var(--background);
+    color: var(--text);
+    
+    font-family: 'Poppins', sans-serif;
+}
+/* ******************* */
+
+
+
+ .logo{
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    background: linear-gradient(90deg, #7C3AED, #A855F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.logo:hover{
+    transform: scale(1.03);
+}
+
+
+/* ******************* */
+
+
+
+.navbar{
+    padding:14px 0;
+}
+.nav-link{
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #2D2A32 !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover{
+    color: #7C3AED !important;
+}
+
+.dropdown-menu{
+    border:none;
+    border-radius:15px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+.dropdown-item{
+    padding:10px 20px;
+}
+
+.dropdown-item:hover{
+    background:#F5F3FF;
+    color:#7C3AED;
+}
+
+.search-box{
+    width:320px;
+}
+
+.search-box input{
+    border-radius:30px;
+    padding:10px 18px;
+    border:1px solid #ddd;
+}
+
+.search-box input:focus{
+    border-color:#7C3AED;
+    box-shadow:0 0 0 .2rem rgba(124,58,237,.15);
+}
+
+.icon-btn{
+    font-size:22px;
+    color:#2D2A32;
+    transition:.3s;
+}
+
+.icon-btn:hover{
+    color:#7C3AED;
+}
+
+.cart-badge{
+    font-size:10px;
+    position:absolute;
+    top:-5px;
+    right:-10px;
+}
+
+.login-btn{
+    background:#7C3AED;
+    color:#fff;
+    border-radius:30px;
+    padding:8px 22px;
+}
+
+.login-btn:hover{
+    background:#6D28D9;
+    color:#fff;
+}
