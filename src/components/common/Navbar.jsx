@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
 
+
+import { Link, NavLink } from "react-router-dom";
 function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
@@ -28,65 +29,86 @@ function Navbar() {
 
                 <div className="collapse navbar-collapse" id="navbar">
 
+
                     {/* Navigation */}
 
                     <ul className="navbar-nav ms-4">
 
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
+                            <NavLink className="nav-link" to="/">
+                                Home
+                            </NavLink>
                         </li>
-
-                        {/* Categories */}
 
                         <li className="nav-item dropdown">
 
                             <a
                                 className="nav-link dropdown-toggle"
                                 href="#"
+                                id="categoryDropdown"
                                 role="button"
                                 data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                onClick={(e) => e.preventDefault()}
                             >
                                 Categories
                             </a>
 
-                            <ul className="dropdown-menu">
+                            <ul
+                                className="dropdown-menu"
+                                aria-labelledby="categoryDropdown"
+                            >
 
-                                <li><Link className="dropdown-item" to="/category/ethnic">Ethnic Wear</Link></li>
+                                <li>
+                                    <Link className="dropdown-item" to="/category/ethnic-wear">
+                                        Ethnic Wear
+                                    </Link>
+                                </li>
 
-                                <li><Link className="dropdown-item" to="/category/western">Western Wear</Link></li>
+                                <li>
+                                    <Link className="dropdown-item" to="/category/western-wear">
+                                        Western Wear
+                                    </Link>
+                                </li>
 
-                                <li><Link className="dropdown-item" to="/category/kurtis">Kurtis</Link></li>
+                                <li>
+                                    <Link className="dropdown-item" to="/category/kurtis">
+                                        Kurtis
+                                    </Link>
+                                </li>
 
-                                <li><Link className="dropdown-item" to="/category/sarees">Sarees</Link></li>
+                                <li>
+                                    <Link className="dropdown-item" to="/category/dresses">
+                                        Dresses
+                                    </Link>
+                                </li>
 
-                                <li><Link className="dropdown-item" to="/category/tops">Tops</Link></li>
+                                <li>
+                                    <Link className="dropdown-item" to="/category/tops">
+                                        Tops
+                                    </Link>
+                                </li>
 
-                                <li><Link className="dropdown-item" to="/category/jeans">Jeans</Link></li>
-
-                               
-
-                                
+                                <li>
+                                    <Link className="dropdown-item" to="/category/bottom-wear">
+                                        Bottom Wear
+                                    </Link>
+                                </li>
 
                             </ul>
 
                         </li>
 
                         <li className="nav-item">
-                            <Link className="nav-link" to="/new-arrivals">
+                            <NavLink className="nav-link" to="/new-arrivals">
                                 New Arrivals
-                            </Link>
+                            </NavLink>
                         </li>
 
                         <li className="nav-item">
-                            <Link className="nav-link" to="/sale">
+                            <NavLink className="nav-link" to="/sale">
                                 Sale
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/about">
-                                About
-                            </Link>
+                            </NavLink>
                         </li>
 
                     </ul>
@@ -98,8 +120,15 @@ function Navbar() {
                         <input
                             className="form-control"
                             type="search"
-                            placeholder="Search dresses, kurtis..."
+                            placeholder="Search products..."
                         />
+
+                        <button
+                            className="btn search-btn"
+                            type="submit"
+                        >
+                            <i className="bi bi-search"></i>
+                        </button>
 
                     </form>
 

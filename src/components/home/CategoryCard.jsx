@@ -1,37 +1,33 @@
-function CategoryCard({category}){
+import { Link } from "react-router-dom";
 
-return(
+function CategoryCard({ category }) {
+    return (
+        <Link
+            to={`/category/${category.slug}`}
+            className="text-decoration-none"
+        >
+            <div className="category-card">
 
-<div className="category-card">
+                <img
+                    src={category.image}
+                    alt={category.name}
+                    className="category-image"
+                />
 
-<img
-src={category.image}
-alt={category.name}
-className="category-image"
-/>
+                <div className="category-overlay">
 
-<div className="category-overlay">
+                    <h3>{category.name}</h3>
 
-<h3>
+                    <p className="explore-text">
+                        Explore Collection
+                        <i className="bi bi-arrow-right"></i>
+                    </p>
 
-{category.name}
+                </div>
 
-</h3>
-
-<button>
-
-Explore Collection
-
-<i className="bi bi-arrow-right ms-2"></i>
-
-</button>
-
-</div>
-
-</div>
-
-)
-
+            </div>
+        </Link>
+    );
 }
 
 export default CategoryCard;

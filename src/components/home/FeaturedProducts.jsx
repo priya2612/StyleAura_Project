@@ -1,4 +1,4 @@
-import ProductCard from "./ProductCard";
+import ProductCard from "../product/ProductCard";
 import "./FeaturedProducts.css";
 import kurtis from "../../assets/images/featured/Kurti.jpg";
 import coord from "../../assets/images/featured/coord.jpg";
@@ -7,6 +7,7 @@ import midi from "../../assets/images/featured/midi.jpg";
 import saree from "../../assets/images/featured/saree.jpg";
 import shirt from "../../assets/images/featured/shirt.jpg";
 import shirt2 from "../../assets/images/featured/shirt2.jpg";
+
 
 function FeaturedProducts() {
 
