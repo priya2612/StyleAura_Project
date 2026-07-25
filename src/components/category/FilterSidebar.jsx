@@ -1,6 +1,21 @@
 import "./FilterSidebar.css";
 
-function FilterSidebar() {
+function FilterSidebar({
+  selectedPrice,
+  setSelectedPrice,
+
+  selectedSizes,
+  setSelectedSizes,
+
+  selectedColors,
+  setSelectedColors,
+
+  selectedDiscount,
+  setSelectedDiscount,
+
+  inStockOnly,
+  setInStockOnly
+}) {
   return (
     <div className="filter-sidebar">
 
@@ -15,22 +30,42 @@ function FilterSidebar() {
         <h6>Price</h6>
 
         <label>
-          <input type="checkbox" />
+          <input
+            type="radio"
+            name="price"
+            checked={selectedPrice === "under500"}
+            onChange={() => setSelectedPrice("under500")}
+          />
           Under ₹500
         </label>
 
         <label>
-          <input type="checkbox" />
+          <input
+            type="radio"
+            name="price"
+            checked={selectedPrice === "500-1000"}
+            onChange={() => setSelectedPrice("500-1000")}
+          />
           ₹500 - ₹1000
         </label>
 
         <label>
-          <input type="checkbox" />
+          <input
+            type="radio"
+            name="price"
+            checked={selectedPrice === "1000-2000"}
+            onChange={() => setSelectedPrice("1000-2000")}
+          />
           ₹1000 - ₹2000
         </label>
 
         <label>
-          <input type="checkbox" />
+          <input
+            type="radio"
+            name="price"
+            checked={selectedPrice === "2000+"}
+            onChange={() => setSelectedPrice("2000+")}
+          />
           Above ₹2000
         </label>
 
@@ -44,14 +79,39 @@ function FilterSidebar() {
 
         <div className="size-buttons">
 
-          <button>XS</button>
-          <button>S</button>
-          <button>M</button>
-          <button>L</button>
-          <button>XL</button>
+          {["XS", "S", "M", "L", "XL"].map(size => (
+
+            <button
+              key={size}
+              type="button"
+              className={selectedSizes.includes(size) ? "active" : ""}
+              onClick={() => {
+
+                if (selectedSizes.includes(size)) {
+
+                  setSelectedSizes(
+                    selectedSizes.filter(s => s !== size)
+                  );
+
+                } else {
+
+                  setSelectedSizes([
+                    ...selectedSizes,
+                    size
+                  ]);
+
+                }
+
+              }}
+            >
+
+              {size}
+
+            </button>
+
+          ))}
 
         </div>
-
       </div>
 
       {/* Color */}
@@ -62,13 +122,42 @@ function FilterSidebar() {
 
         <div className="color-list">
 
-          <span className="color black"></span>
+          {["Black", "White", "Pink", "Purple"].map(color => (
 
-          <span className="color white"></span>
+            <span
 
-          <span className="color pink"></span>
+              key={color}
 
-          <span className="color purple"></span>
+              className={`color ${color.toLowerCase()} ${selectedColors.includes(color) ? "selected" : ""
+                }`}
+
+              onClick={() => {
+
+                if (selectedColors.includes(color)) {
+
+                  setSelectedColors(
+
+                    selectedColors.filter(c => c !== color)
+
+                  );
+
+                } else {
+
+                  setSelectedColors([
+
+                    ...selectedColors,
+
+                    color
+
+                  ]);
+
+                }
+
+              }}
+
+            ></span>
+
+          ))}
 
         </div>
 
@@ -81,17 +170,32 @@ function FilterSidebar() {
         <h6>Discount</h6>
 
         <label>
-          <input type="checkbox" />
+          <input
+            type="radio"
+            name="discount"
+            checked={selectedDiscount === 20}
+            onChange={() => setSelectedDiscount(20)}
+          />
           20% & Above
         </label>
 
         <label>
-          <input type="checkbox" />
+          <input
+            type="radio"
+            name="discount"
+            checked={selectedDiscount === 40}
+            onChange={() => setSelectedDiscount(40)}
+          />
           40% & Above
         </label>
 
         <label>
-          <input type="checkbox" />
+          <input
+            type="radio"
+            name="discount"
+            checked={selectedDiscount === 60}
+            onChange={() => setSelectedDiscount(60)}
+          />
           60% & Above
         </label>
 
@@ -105,7 +209,11 @@ function FilterSidebar() {
 
         <label>
 
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            checked={inStockOnly}
+            onChange={(e) => setInStockOnly(e.target.checked)}
+          />
 
           In Stock
 
@@ -113,7 +221,27 @@ function FilterSidebar() {
 
       </div>
 
-      <button className="clear-btn">
+      <button
+
+        className="clear-btn"
+
+        type="button"
+
+        onClick={() => {
+
+          setSelectedPrice("");
+
+          setSelectedSizes([]);
+
+          setSelectedColors([]);
+
+          setSelectedDiscount("");
+
+          setInStockOnly(false);
+
+        }}
+
+      >
 
         Clear Filters
 

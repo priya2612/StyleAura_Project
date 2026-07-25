@@ -1,44 +1,67 @@
 import "./SortBar.css";
 
-function SortBar() {
-  return (
-    <div className="sortbar">
+function SortBar({
+    totalProducts,
+    searchTerm,
+    setSearchTerm,
+    sortBy,
+    setSortBy
+}) {
 
-      <div className="product-count">
-        <span>Showing</span>
-        <strong> 24 </strong>
-        <span>Products</span>
-      </div>
+    return (
 
-      <div className="sort-section">
+        <div className="sortbar">
 
-        <label htmlFor="sort">
-          Sort By
-        </label>
+    <div className="product-count">
+        Showing <strong>{totalProducts}</strong> Products
+    </div>
 
-        <select
-          id="sort"
-          className="form-select"
-        >
+    <div className="sort-actions">
 
-          <option>Newest</option>
+        <div className="search-box-category">
 
-          <option>Popularity</option>
+            <div className="input-group">
 
-          <option>Price : Low to High</option>
+                <span className="input-group-text">
+                    <i className="bi bi-search"></i>
+                </span>
 
-          <option>Price : High to Low</option>
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search in category..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
 
-          <option>Discount</option>
+            </div>
 
-          <option>Customer Rating</option>
+        </div>
 
-        </select>
+        <div className="sort-section">
 
-      </div>
+            <label>Sort By</label>
+
+            <select
+                className="form-select"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+            >
+                <option value="newest">Newest</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="discount">Highest Discount</option>
+                <option value="name">Name A-Z</option>
+            </select>
+
+        </div>
 
     </div>
-  );
+
+</div>
+
+    );
+
 }
 
 export default SortBar;

@@ -1,6 +1,7 @@
 import "./HeroBanner.css";
 //import heroImage from "../../assets/images/hero-banner.png";
 import heroImage from "../../assets/images/hero-banner.jpg";
+import { Link } from "react-router-dom";
 
 function HeroBanner() {
   return (
@@ -31,11 +32,21 @@ function HeroBanner() {
 
             </p>
 
-            <button className=" hero-btn mt-4">
+            {/* <Link
+              to="/products"
+              className="btn hero-btn"
+            >
+              Explore Collection
+            </Link> */}
 
-              Shop Now
+            <Link
+              to="/products"
+              className="hero-btn"
+            >
+              Explore Collection
+              <i className="bi bi-arrow-right"></i>
+            </Link>
 
-            </button>
 
           </div>
 

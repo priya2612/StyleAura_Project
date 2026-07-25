@@ -1,7 +1,12 @@
-
-
 import { Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 function Navbar() {
+
+    const [searchText, setSearchText] = useState("");
+
+    const navigate = useNavigate();
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
 
@@ -115,12 +120,34 @@ function Navbar() {
 
                     {/* Search */}
 
-                    <form className="d-flex mx-lg-auto my-3 my-lg-0 search-box">
+                    <form
+                        className="d-flex mx-lg-auto my-3 my-lg-0 search-box"
+                        onSubmit={(e) => {
+
+                            e.preventDefault();
+
+                            if (searchText.trim()) {
+
+                                navigate(
+                                    `/search?q=${encodeURIComponent(searchText)}`
+                                );
+
+                            }
+
+                        }}
+                    >
 
                         <input
                             className="form-control"
                             type="search"
                             placeholder="Search products..."
+
+                            value={searchText}
+
+                            onChange={(e) =>
+                                setSearchText(e.target.value)
+                            }
+
                         />
 
                         <button
