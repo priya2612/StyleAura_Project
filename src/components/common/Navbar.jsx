@@ -1,12 +1,25 @@
 import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useCart } from "../../context/CartContext";
 
 function Navbar() {
 
     const [searchText, setSearchText] = useState("");
 
     const navigate = useNavigate();
+
+    const { cartItems } = useCart();
+
+    const cartCount = cartItems.reduce(
+
+        (total, item) => total + item.quantity,
+
+        0
+
+    );
+
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
 
@@ -173,9 +186,15 @@ function Navbar() {
                         >
                             <i className="bi bi-cart3"></i>
 
-                            <span className="badge bg-danger rounded-pill cart-badge">
-                                0
-                            </span>
+                            {cartCount > 0 && (
+
+                                <span className="badge bg-danger rounded-pill cart-badge">
+
+                                    {cartCount}
+
+                                </span>
+
+                            )}
 
                         </Link>
 

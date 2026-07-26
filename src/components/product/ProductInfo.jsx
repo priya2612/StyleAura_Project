@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "./ProductInfo.css";
+import { useCart } from "../../context/CartContext";
 
 function ProductInfo({ product }) {
 
     const [quantity, setQuantity] = useState(1);
+    const { addToCart } = useCart();
 
     const increaseQuantity = () => {
         if (quantity < product.stockQuantity) {
@@ -155,7 +157,7 @@ function ProductInfo({ product }) {
 
             <div className="product-buttons">
 
-                <button className="cart-btn">
+                <button className="cart-btn" onClick={() => addToCart(product)}>
 
                     <i className="bi bi-cart-plus me-2"></i>
 
