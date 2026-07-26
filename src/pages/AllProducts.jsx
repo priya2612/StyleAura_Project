@@ -6,70 +6,33 @@ import Footer from "../components/common/Footer";
 import FilterSidebar from "../components/category/FilterSidebar";
 import SortBar from "../components/category/SortBar";
 import ProductGrid from "../components/product/ProductGrid";
-
+import useProductFilters from "../hooks/useProductFilters";
 import { allProducts } from "../data/products";
 
 import "./AllProducts.css";
 
 function AllProducts() {
 
-    const [searchTerm, setSearchTerm] = useState("");
+    const {
+        displayedProducts,
+        searchTerm,
+        setSearchTerm,
+        sortBy,
+        setSortBy,
+        selectedPrice,
+        setSelectedPrice,
+        selectedSizes,
+        setSelectedSizes,
+        selectedColors,
+        setSelectedColors,
+        selectedDiscount,
+        setSelectedDiscount,
+        inStockOnly,
+        setInStockOnly
+    } = useProductFilters(allProducts);
 
-    const [sortBy, setSortBy] = useState("newest");
 
-    const displayedProducts = useMemo(() => {
 
-        let filtered = [...allProducts];
-
-        if (searchTerm) {
-
-            filtered = filtered.filter(product =>
-
-                product.name
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase())
-
-            );
-
-        }
-
-        switch (sortBy) {
-
-            case "price-low":
-
-                filtered.sort((a, b) => a.price - b.price);
-
-                break;
-
-            case "price-high":
-
-                filtered.sort((a, b) => b.price - a.price);
-
-                break;
-
-            case "discount":
-
-                filtered.sort((a, b) => b.discount - a.discount);
-
-                break;
-
-            case "name":
-
-                filtered.sort((a, b) =>
-                    a.name.localeCompare(b.name)
-                );
-
-                break;
-
-            default:
-
-                break;
-
-        }
-
-        return filtered;
-
-    }, [searchTerm, sortBy]);
 
     return (
 
@@ -99,7 +62,24 @@ function AllProducts() {
 
                         <div className="col-lg-3">
 
-                            <FilterSidebar />
+                            <FilterSidebar
+
+                                selectedPrice={selectedPrice}
+                                setSelectedPrice={setSelectedPrice}
+
+                                selectedSizes={selectedSizes}
+                                setSelectedSizes={setSelectedSizes}
+
+                                selectedColors={selectedColors}
+                                setSelectedColors={setSelectedColors}
+
+                                selectedDiscount={selectedDiscount}
+                                setSelectedDiscount={setSelectedDiscount}
+
+                                inStockOnly={inStockOnly}
+                                setInStockOnly={setInStockOnly}
+
+                            />
 
                         </div>
 

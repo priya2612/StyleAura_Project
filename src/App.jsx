@@ -3,6 +3,7 @@ import SearchResults from "./pages/SearchResults";
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
 import AllProducts from "./pages/AllProducts";
+import ProductDetails from "./pages/ProductDeatils";
 
 function App() {
   return (
@@ -23,6 +24,11 @@ function App() {
         path="/products"
         element={<AllProducts />}
       />
+      <Route
+        path="/product/:id"
+        element={<ProductDetails />}
+      />
+
     </Routes>
 
 
