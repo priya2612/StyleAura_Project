@@ -1,9 +1,11 @@
-import "./CartSummary.css";
-import { useNavigate } from "react-router-dom";
+import "./OrderSummary.css";
 
-function CartSummary({ cartItems }) {
+function OrderSummary({
 
-    const navigate = useNavigate();
+    cartItems,
+    onPlaceOrder
+
+}) {
 
     const subtotal = cartItems.reduce(
 
@@ -27,15 +29,54 @@ function CartSummary({ cartItems }) {
 
     const discount = originalTotal - subtotal;
 
-    const deliveryCharge = subtotal > 999 ? 0 : 99;
+    const deliveryCharge = subtotal >= 999 ? 0 : 99;
 
     const total = subtotal + deliveryCharge;
 
     return (
 
-        <div className="cart-summary">
+        <div className="checkout-summary">
 
-            <h4>Price Details</h4>
+            <h4>
+
+                Order Summary
+
+            </h4>
+
+            <hr />
+
+            {
+
+                cartItems.map(item => (
+
+                    <div
+                        className="summary-product"
+                        key={item.id}
+                    >
+
+                        <span>
+
+                            {item.name}
+
+                            <small>
+
+                                × {item.quantity}
+
+                            </small>
+
+                        </span>
+
+                        <span>
+
+                            ₹{item.price * item.quantity}
+
+                        </span>
+
+                    </div>
+
+                ))
+
+            }
 
             <hr />
 
@@ -43,7 +84,7 @@ function CartSummary({ cartItems }) {
 
                 <span>
 
-                    Price ({cartItems.length} Items)
+                    Subtotal
 
                 </span>
 
@@ -57,7 +98,11 @@ function CartSummary({ cartItems }) {
 
             <div className="summary-row">
 
-                <span>Discount</span>
+                <span>
+
+                    Discount
+
+                </span>
 
                 <span className="discount">
 
@@ -69,7 +114,11 @@ function CartSummary({ cartItems }) {
 
             <div className="summary-row">
 
-                <span>Delivery Charges</span>
+                <span>
+
+                    Delivery
+
+                </span>
 
                 <span>
 
@@ -95,7 +144,11 @@ function CartSummary({ cartItems }) {
 
             <div className="summary-row total">
 
-                <span>Total Amount</span>
+                <span>
+
+                    Total Amount
+
+                </span>
 
                 <span>
 
@@ -105,17 +158,15 @@ function CartSummary({ cartItems }) {
 
             </div>
 
-           
-
             <button
 
-                className="checkout-btn"
+                className="place-order-btn"
 
-                onClick={() => navigate("/checkout")}
+                onClick={onPlaceOrder}
 
             >
 
-                Proceed to Checkout
+                Place Order
 
             </button>
 
@@ -125,4 +176,4 @@ function CartSummary({ cartItems }) {
 
 }
 
-export default CartSummary;
+export default OrderSummary;

@@ -5,6 +5,12 @@ import CategoryPage from "./pages/CategoryPage";
 import AllProducts from "./pages/AllProducts";
 import ProductDetails from "./pages/ProductDeatils";
 import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderSuccess from "./pages/OrderSuccess";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import MyOrders from "./pages/MyOrders";
+
 
 function App() {
   return (
@@ -34,6 +40,38 @@ function App() {
         path="/cart"
         element={<CartPage />}
       />
+
+      <Route
+
+        path="/checkout"
+
+        element={<CheckoutPage />}
+
+      />
+
+      <Route
+
+        path="/order-success"
+
+        element={<OrderSuccess />}
+
+      />
+      <Route
+
+        path="/login"
+
+        element={<Login />}
+
+      />
+
+      <Route
+
+        path="/register"
+
+        element={<Register />}
+
+      />
+      <Route path="/orders" element={<MyOrders />} />
 
     </Routes>
 
