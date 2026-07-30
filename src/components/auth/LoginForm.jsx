@@ -15,6 +15,8 @@ function LoginForm() {
 
     const [rememberMe, setRememberMe] = useState(false);
 
+    const [role, setRole] = useState("customer");
+
     const handleSubmit = (e) => {
 
         e.preventDefault();
@@ -35,7 +37,20 @@ function LoginForm() {
 
         });
 
-        navigate("/");
+        //      navigate("/");
+
+        localStorage.setItem("role", role);
+
+        if (role === "admin") {
+
+            navigate("/admin/dashboard");
+
+        }
+        else {
+
+            navigate("/");
+
+        }
 
     };
 
@@ -158,6 +173,56 @@ function LoginForm() {
                             ></i>
 
                         </button>
+
+                    </div>
+
+                </div>
+
+                <div className="mb-3">
+
+                    <label className="form-label">
+
+                        Login As
+
+                    </label>
+
+                    <div>
+
+                        <input
+
+                            type="radio"
+
+                            value="customer"
+
+                            checked={role === "customer"}
+
+                            onChange={(e) => setRole(e.target.value)}
+
+                        />
+
+                        <span className="ms-2 me-4">
+
+                            Customer
+
+                        </span>
+
+                        <input
+
+                            type="radio"
+
+                            value="admin"
+
+                            checked={role === "admin"}
+
+                            onChange={(e) => setRole(e.target.value)}
+
+                        />
+
+                        <span className="ms-2">
+
+                            Admin
+
+                        </span>
 
                     </div>
 

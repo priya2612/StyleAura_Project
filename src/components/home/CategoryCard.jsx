@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 function CategoryCard({ category }) {
+
     return (
         <Link
             to={`/category/${category.slug}`}

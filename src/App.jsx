@@ -10,6 +10,16 @@ import OrderSuccess from "./pages/OrderSuccess";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import MyOrders from "./pages/MyOrders";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AddProduct from "./pages/Admin/AddProduct";
+import EditProduct from "./pages/admin/EditProduct";
+import AdminCategories from "./pages/Admin/AdminCategories";
+import AdminOrders from "./pages/admin/AdminOrders";
+import ProtectedUserRoute from "./routes/ProtectedUserRoute";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AddCategory from "./pages/admin/AddCategory";
+import NotFound from "./pages/NotFound";
 
 
 function App() {
@@ -37,16 +47,50 @@ function App() {
       />
 
       <Route
+
         path="/cart"
-        element={<CartPage />}
+
+        element={
+
+          <ProtectedUserRoute>
+
+            <CartPage />
+
+          </ProtectedUserRoute>
+
+        }
+
       />
 
       <Route
 
         path="/checkout"
 
-        element={<CheckoutPage />}
+        element={
 
+          <ProtectedUserRoute>
+
+            <CheckoutPage />
+
+          </ProtectedUserRoute>
+
+        }
+
+      />
+
+      <Route
+
+        path="/orders"
+
+        element={
+
+          <ProtectedUserRoute>
+
+            <MyOrders />
+
+          </ProtectedUserRoute>
+
+        }
       />
 
       <Route
@@ -71,7 +115,70 @@ function App() {
         element={<Register />}
 
       />
-      <Route path="/orders" element={<MyOrders />} />
+
+
+      <Route
+        path="/admin/products"
+        element={<AdminProducts />}
+      />
+
+      <Route
+        path="/admin/products/add"
+        element={<AddProduct />}
+      />
+
+      <Route
+        path="/admin/products/edit/:id"
+        element={<EditProduct />}
+      />
+
+      <Route
+
+        path="/admin/categories"
+
+        element={<AdminCategories />}
+
+      />
+
+      <Route
+        path="/admin/categories/add"
+        element={
+          <ProtectedAdminRoute>
+            <AddCategory />
+          </ProtectedAdminRoute>
+        }
+      />
+      <Route
+
+        path="/admin/orders"
+
+        element={<AdminOrders />}
+
+      />
+
+      <Route
+
+        path="/admin/dashboard"
+
+        element={
+
+          <ProtectedAdminRoute>
+
+            <AdminDashboard />
+
+          </ProtectedAdminRoute>
+
+        }
+
+      />
+
+      <Route
+
+        path="*"
+
+        element={<NotFound />}
+
+      />
 
     </Routes>
 

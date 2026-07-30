@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "../../context/CartContext";
+import "./Navbar.css";
 
 function Navbar() {
 
@@ -19,6 +20,7 @@ function Navbar() {
 
     );
 
+    const role = localStorage.getItem("role");
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
@@ -53,7 +55,7 @@ function Navbar() {
                     <ul className="navbar-nav ms-4">
 
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/">
+                            <NavLink className="main-nav-link" to="/">
                                 Home
                             </NavLink>
                         </li>
@@ -61,7 +63,7 @@ function Navbar() {
                         <li className="nav-item dropdown">
 
                             <a
-                                className="nav-link dropdown-toggle"
+                                className="main-nav-link dropdown-toggle"
                                 href="#"
                                 id="categoryDropdown"
                                 role="button"
@@ -117,14 +119,14 @@ function Navbar() {
 
                         </li>
 
-                        <li className="nav-item">
-                            <NavLink className="nav-link" to="/new-arrivals">
+                        {/* <li className="nav-item">
+                            <NavLink className="main-nav-link" to="/new-arrivals">
                                 New Arrivals
                             </NavLink>
-                        </li>
+                        </li> */}
 
                         <li className="nav-item">
-                            <NavLink className="nav-link" to="/sale">
+                            <NavLink className="main-nav-link" to="/sale">
                                 Sale
                             </NavLink>
                         </li>
@@ -174,7 +176,7 @@ function Navbar() {
 
                     {/* Icons */}
 
-                    <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center navbar-actions">
 
                         <Link to="/wishlist" className="icon-btn me-3">
                             <i className="bi bi-heart"></i>
@@ -198,12 +200,63 @@ function Navbar() {
 
                         </Link>
 
-                        <Link
+                        {/* <Link
                             to="/login"
                             className="btn login-btn"
                         >
                             Login
-                        </Link>
+                        </Link> */}
+                        {
+                            role ? (
+
+                                <>
+
+                                    <Link
+                                        to="/orders"
+                                        className="account-link ms-2"
+                                    >
+                                        My Orders
+                                    </Link>
+
+                                    {
+                                        role === "admin" && (
+
+                                            <Link
+                                                to="/admin/dashboard"
+                                                className="account-link admin-link ms-3"
+                                            >
+                                                Admin
+                                            </Link>
+
+                                        )
+                                    }
+
+                                    <button
+                                        className="btn login-btn ms-3"
+                                        onClick={() => {
+
+                                            localStorage.removeItem("role");
+
+                                            navigate("/login");
+
+                                        }}
+                                    >
+                                        Logout
+                                    </button>
+
+                                </>
+
+                            ) : (
+
+                                <Link
+                                    to="/login"
+                                    className="btn login-btn"
+                                >
+                                    Login
+                                </Link>
+
+                            )
+                        }
 
                     </div>
 
