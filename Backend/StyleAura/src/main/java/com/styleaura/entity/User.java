@@ -1,6 +1,10 @@
 package com.styleaura.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(
@@ -29,6 +33,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+    
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+
+    @JsonIgnore
+   
+    private List<Cart> cartItems = new ArrayList<>();
 
     public User() {
     }

@@ -1,6 +1,10 @@
 package com.styleaura.entity;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
 
@@ -40,6 +44,10 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<Cart> cartItems = new ArrayList<>();
 
     public Product() {
     }
