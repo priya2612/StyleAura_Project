@@ -2,7 +2,8 @@ package com.styleaura.dto;
 
 public class LoginResponse {
 
-    private String token;
+	private String accessToken;
+	private String tokenType;
     private String name;
     private String email;
     private String role;
@@ -10,19 +11,20 @@ public class LoginResponse {
     public LoginResponse() {
     }
 
-    public LoginResponse(String token, String name, String email, String role) {
-        this.token = token;
+    public LoginResponse(String accessToken, String tokenType, String name, String email, String role) {
+        this.accessToken = accessToken;
+        this.setTokenType(tokenType);
         this.name = name;
         this.email = email;
         this.role = role;
     }
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccessToken(String token) {
+        this.accessToken = token;
     }
 
     public String getName() {
@@ -48,4 +50,12 @@ public class LoginResponse {
     public void setRole(String role) {
         this.role = role;
     }
+
+	public String getTokenType() {
+		return tokenType;
+	}
+
+	public void setTokenType(String tokenType) {
+		this.tokenType = tokenType;
+	}
 }

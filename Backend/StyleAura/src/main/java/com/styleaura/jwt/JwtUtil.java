@@ -3,6 +3,7 @@ package com.styleaura.jwt;
 import java.security.Key;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -13,39 +14,50 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY =
-            "StyleAuraSecretKeyForJwtAuthentication2026StyleAura";
+    @Value("${jwt.secret}")
+    private String secret;
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
+    @Value("${jwt.expiration}")
+    private long expiration;
 
-    private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
-    // Generate Token
     public String generateToken(String email) {
 
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // Extract Email
     public String extractEmail(String token) {
 
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
+        return extractAllClaims(token).getSubject();
+    }
+
+    public boolean validateToken(String token, String email) {
+
+        return extractEmail(token).equals(email)
+                && !isTokenExpired(token);
+    }
+
+    private boolean isTokenExpired(String token) {
+
+        return extractAllClaims(token)
+                .getExpiration()
+                .before(new Date());
+    }
+
+    private Claims extractAllClaims(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-        return claims.getSubject();
-    }
-
-    // Validate Token
-    public boolean validateToken(String token, String email) {
-
-        return extractEmail(token).equals(email);
     }
 }

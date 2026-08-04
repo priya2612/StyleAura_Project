@@ -38,37 +38,52 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
+        
+        System.out.println("Authorization Header = " + authHeader);
 
+        // No token → continue request
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authHeader.substring(7);
+        try {
 
-        String email = jwtUtil.extractEmail(token);
+            String token = authHeader.substring(7);
 
-        if (email != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+            String email = jwtUtil.extractEmail(token);
 
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(email);
+            if (email != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            if (jwtUtil.validateToken(token, email)) {
+                UserDetails userDetails =
+                        userDetailsService.loadUserByUsername(email);
 
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,
-                                null,
-                                userDetails.getAuthorities());
+                if (jwtUtil.validateToken(token, userDetails.getUsername())) {
 
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource()
-                                .buildDetails(request));
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities());
 
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
+                    authentication.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request));
+
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authentication);
+                    
+                    System.out.println("Authentication SUCCESS");
+                    System.out.println("Current Auth = " +
+                            SecurityContextHolder.getContext().getAuthentication());
+                }
             }
+
+        } catch (Exception ex) {
+
+            // Invalid or expired JWT → request continues unauthenticated
+            System.out.println("JWT ERROR: " + ex.getMessage());
         }
 
         filterChain.doFilter(request, response);
