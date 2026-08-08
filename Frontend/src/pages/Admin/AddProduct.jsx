@@ -1,15 +1,42 @@
 import AdminLayout from "../../components/admin/AdminLayout";
 import ProductForm from "../../components/admin/ProductForm";
 
+import { addProduct } from "../../services/productService";
+import { useNavigate } from "react-router-dom";
+
 function AddProduct() {
 
-    function handleAddProduct(data) {
+    const navigate = useNavigate();
 
-        console.log("New Product");
+    async function handleAddProduct(data) {
 
-        console.log(data);
+        try {
 
-        alert("Product Added Successfully");
+            await addProduct(data);
+
+            // setFormData({
+            //     name: "",
+            //     category: "",
+            //     price: "",
+            //     originalPrice: "",
+            //     stockQuantity: "",
+            //     size: "",
+            //     color: "",
+            //     description: "",
+            //     image: ""
+            // });
+
+            alert("Product Added Successfully");
+
+            navigate("/admin/products");
+
+        } catch (error) {
+
+            console.log(error);
+
+            alert("Unable to add product");
+
+        }
 
     }
 

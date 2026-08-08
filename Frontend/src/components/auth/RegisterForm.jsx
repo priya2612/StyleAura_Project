@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { registerUser } from "../../services/authService";
 
 import "./RegisterForm.css";
 
@@ -37,59 +38,66 @@ function RegisterForm() {
 
     };
 
-    const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        const {
+    const {
 
-            fullName,
+        fullName,
+        email,
+        phone,
+        password,
+        confirmPassword
 
+    } = formData;
+
+    if (
+        !fullName ||
+        !email ||
+        !phone ||
+        !password ||
+        !confirmPassword
+    ) {
+
+        alert("Please fill all fields.");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+
+        alert("Passwords do not match.");
+        return;
+    }
+
+    try {
+
+        await registerUser({
+
+            name: fullName,
             email,
-
             phone,
+            password
 
-            password,
+        });
 
-            confirmPassword
-
-        } = formData;
-
-        if (
-
-            !fullName ||
-
-            !email ||
-
-            !phone ||
-
-            !password ||
-
-            !confirmPassword
-
-        ) {
-
-            alert("Please fill all fields.");
-
-            return;
-
-        }
-
-        if (password !== confirmPassword) {
-
-            alert("Passwords do not match.");
-
-            return;
-
-        }
-
-        console.log(formData);
-
-        alert("Registration Successful!");
+        alert("Registration Successful");
 
         navigate("/login");
 
-    };
+    } catch (error) {
+
+        alert(
+
+            error.response?.data?.message ||
+
+            "Registration Failed"
+
+        );
+
+    }
+
+};
 
     return (
 

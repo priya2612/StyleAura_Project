@@ -1,39 +1,64 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./AddCategory.css";
+
 import AdminLayout from "../../components/admin/AdminLayout";
+import { addCategory } from "../../services/categoryService";
+
+import "./AddCategory.css";
 
 function AddCategory() {
 
     const navigate = useNavigate();
 
     const [categoryName, setCategoryName] = useState("");
-
     const [slug, setSlug] = useState("");
+    const [image, setImage] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
 
         if (!categoryName || !slug) {
 
             alert("Please fill all fields.");
-
             return;
-
         }
 
-        console.log({
+        try {
 
-            name: categoryName,
+            const category = {
 
-            slug: slug
+                name: categoryName,
+                slug: slug,
+                image: image
 
-        });
+            };
 
-        alert("Category Added Successfully");
+            console.log("Sending Category:", category);
 
-        navigate("/admin/categories");
+            await addCategory(category);
+
+            alert("Category Added Successfully");
+
+            setCategoryName("");
+            setSlug("");
+            setImage("");
+
+            navigate("/admin/categories");
+
+        }
+        catch (error) {
+
+            console.log(error);
+
+            console.log(error.response);
+
+            alert(
+                error.response?.data?.message ||
+                "Unable to add category"
+            );
+
+        }
 
     };
 
@@ -58,11 +83,26 @@ function AddCategory() {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Enter category name"
                             value={categoryName}
-                            onChange={(e) =>
-                                setCategoryName(e.target.value)
-                            }
+                            onChange={(e) => setCategoryName(e.target.value)}
+                            required
+                        />
+
+                    </div>
+
+                    <div className="mb-3">
+
+                        <label className="form-label">
+                            Slug
+                        </label>
+
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="western-wear"
+                            value={slug}
+                            onChange={(e) => setSlug(e.target.value)}
+                            required
                         />
 
                     </div>
@@ -70,34 +110,24 @@ function AddCategory() {
                     <div className="mb-4">
 
                         <label className="form-label">
-                            Category Slug
+                            Image Name
                         </label>
 
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Example: western-wear"
-                            value={slug}
-                            onChange={(e) =>
-                                setSlug(e.target.value)
-                            }
+                            placeholder="kurtis.jpg"
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
                         />
 
                     </div>
 
                     <button
                         type="submit"
-                        className="btn btn-primary me-2"
+                        className="btn btn-primary"
                     >
                         Add Category
-                    </button>
-
-                    <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() => navigate("/admin/categories")}
-                    >
-                        Cancel
                     </button>
 
                 </form>

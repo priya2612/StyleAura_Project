@@ -4,14 +4,11 @@ function ProtectedAdminRoute({ children }) {
 
     const role = localStorage.getItem("role");
 
-    if (role !== "admin") {
-
+    if (role !== "ADMIN") {
         return <Navigate to="/login" replace />;
-
     }
 
     return children;
-
 }
 
 export default ProtectedAdminRoute;

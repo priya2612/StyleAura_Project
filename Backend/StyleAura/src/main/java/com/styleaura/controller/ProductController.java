@@ -1,6 +1,7 @@
 package com.styleaura.controller;
 
 import com.styleaura.entity.Product;
+import org.springframework.security.access.prepost.PreAuthorize;
 import com.styleaura.service.ProductService;
 
 import org.springframework.http.HttpStatus;
@@ -133,10 +134,10 @@ public class ProductController {
     // POST /api/products
     // =========================
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Product> createProduct(
             @RequestBody Product product) {
-
         Product savedProduct =
                 productService.createProduct(product);
 
@@ -150,6 +151,7 @@ public class ProductController {
     // PUT /api/products/{id}
     // =========================
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(
 
@@ -170,6 +172,7 @@ public class ProductController {
     // DELETE /api/products/{id}
     // =========================
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(
             @PathVariable Long id) {

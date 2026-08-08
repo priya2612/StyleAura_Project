@@ -1,30 +1,16 @@
-import "./CategoryTable.css";
 import { useNavigate } from "react-router-dom";
 
-function CategoryTable({ categories }) {
+import "./CategoryTable.css";
+
+function CategoryTable({
+
+    categories,
+
+    onDelete
+
+}) {
 
     const navigate = useNavigate();
-    function handleEdit(category) {
-
-        alert(`Edit ${category.name}`);
-
-    }
-
-    function handleDelete(category) {
-
-        const confirmDelete = window.confirm(
-
-            `Delete "${category.name}" category?`
-
-        );
-
-        if (confirmDelete) {
-
-            alert("Category Deleted Successfully");
-
-        }
-
-    }
 
     return (
 
@@ -39,11 +25,16 @@ function CategoryTable({ categories }) {
                 </h3>
 
                 <button
-                    className="btn btn-primary"
-                    onClick={() => navigate("/admin/categories/add")}
-                >
 
-                    <i className="bi bi-plus-circle me-2"></i>
+                    className="btn btn-primary"
+
+                    onClick={() =>
+
+                        navigate("/admin/categories/add")
+
+                    }
+
+                >
 
                     Add Category
 
@@ -51,7 +42,7 @@ function CategoryTable({ categories }) {
 
             </div>
 
-            <table className="table align-middle">
+            <table className="table">
 
                 <thead>
 
@@ -81,7 +72,7 @@ function CategoryTable({ categories }) {
 
                                     <img
 
-                                        src={category.image}
+                                        src={`/images/categories/${category.image}`}
 
                                         alt={category.name}
 
@@ -109,7 +100,11 @@ function CategoryTable({ categories }) {
 
                                         className="btn btn-warning btn-sm me-2"
 
-                                        onClick={() => handleEdit(category)}
+                                        onClick={() =>
+
+                                            alert("Edit page will be added next.")
+
+                                        }
 
                                     >
 
@@ -121,7 +116,11 @@ function CategoryTable({ categories }) {
 
                                         className="btn btn-danger btn-sm"
 
-                                        onClick={() => handleDelete(category)}
+                                        onClick={() =>
+
+                                            onDelete(category.id)
+
+                                        }
 
                                     >
 

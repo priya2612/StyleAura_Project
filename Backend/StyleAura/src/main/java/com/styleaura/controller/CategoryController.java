@@ -1,6 +1,7 @@
 package com.styleaura.controller;
 
 import com.styleaura.entity.Category;
+
 import com.styleaura.service.CategoryService;
 
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 @RestController
 @RequestMapping("/api/categories")
 @CrossOrigin(origins = "http://localhost:5173")
@@ -50,6 +51,7 @@ public class CategoryController {
     }
 
     // POST: /api/categories
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Category> createCategory(
             @RequestBody Category category) {
@@ -63,6 +65,7 @@ public class CategoryController {
     }
 
     // PUT: /api/categories/{id}
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(
             @PathVariable Long id,
@@ -75,6 +78,7 @@ public class CategoryController {
     }
 
     // DELETE: /api/categories/{id}
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(
             @PathVariable Long id) {

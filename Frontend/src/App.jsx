@@ -119,24 +119,24 @@ function App() {
 
       <Route
         path="/admin/products"
-        element={<AdminProducts />}
+        element={ <ProtectedAdminRoute><AdminProducts /></ProtectedAdminRoute>}
       />
 
       <Route
         path="/admin/products/add"
-        element={<AddProduct />}
+        element={ <ProtectedAdminRoute><AddProduct /></ProtectedAdminRoute>}
       />
 
       <Route
         path="/admin/products/edit/:id"
-        element={<EditProduct />}
+        element={<ProtectedAdminRoute><EditProduct /></ProtectedAdminRoute>}
       />
 
       <Route
 
         path="/admin/categories"
 
-        element={<AdminCategories />}
+        element={<ProtectedAdminRoute><AdminCategories /></ProtectedAdminRoute>}
 
       />
 
@@ -152,7 +152,7 @@ function App() {
 
         path="/admin/orders"
 
-        element={<AdminOrders />}
+        element={<ProtectedAdminRoute><AdminOrders /></ProtectedAdminRoute>}
 
       />
 

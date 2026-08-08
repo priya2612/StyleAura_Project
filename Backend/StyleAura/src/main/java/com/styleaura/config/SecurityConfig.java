@@ -2,10 +2,11 @@ package com.styleaura.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,7 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.styleaura.jwt.JwtAuthenticationFilter;
 
+
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -56,20 +59,38 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                    .requestMatchers(
-                            "/swagger-ui/**",
-                            "/swagger-ui.html",
-                            "/v3/api-docs/**",
+            	    .requestMatchers(
+            	            "/swagger-ui/**",
+            	            "/swagger-ui.html",
+            	            "/v3/api-docs/**",
+            	            "/api/auth/login",
+            	            "/api/users/register"
+            	    ).permitAll()
 
-                            "/api/auth/login",
-                            "/api/users/register",
+            	    // Public APIs
+            	    .requestMatchers(HttpMethod.GET,
+            	            "/api/products/**",
+            	            "/api/categories/**")
+            	    .permitAll()
 
-                            "/api/products/**",
-                            "/api/categories/**"
+            	    // Admin APIs
+            	    .requestMatchers(HttpMethod.POST,
+            	            "/api/products/**",
+            	            "/api/categories/**")
+            	    .hasRole("ADMIN")
 
-                    ).permitAll()
+            	    .requestMatchers(HttpMethod.PUT,
+            	            "/api/products/**",
+            	            "/api/categories/**")
+            	    .hasRole("ADMIN")
 
-                    .anyRequest().authenticated())
+            	    .requestMatchers(HttpMethod.DELETE,
+            	            "/api/products/**",
+            	            "/api/categories/**")
+            	    .hasRole("ADMIN")
+
+            	    .anyRequest().authenticated()
+            	)
 
             .addFilterBefore(
                     jwtAuthenticationFilter,

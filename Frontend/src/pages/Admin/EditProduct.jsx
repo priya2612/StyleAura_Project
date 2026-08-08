@@ -1,29 +1,67 @@
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import AdminLayout from "../../components/admin/AdminLayout";
 import ProductForm from "../../components/admin/ProductForm";
 
-import { allProducts } from "../../data/products";
+import {
+    getProductById,
+    updateProduct
+} from "../../services/productService";
 
 function EditProduct() {
 
     const { id } = useParams();
 
-    const product = allProducts.find(
+    const navigate = useNavigate();
 
-        item => item.id === Number(id)
+    const [product, setProduct] = useState(null);
 
-    );
+    useEffect(() => {
 
-    function handleUpdateProduct(updatedProduct) {
+        loadProduct();
 
-        console.log("Updated Product");
+    }, []);
 
-        console.log(updatedProduct);
+    const loadProduct = async () => {
 
-        alert("Product Updated Successfully");
+        try {
 
-    }
+            const response = await getProductById(id);
+
+            setProduct(response.data);
+
+        }
+
+        catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
+
+    const handleUpdateProduct = async (data) => {
+
+        try {
+
+            await updateProduct(id, data);
+
+            alert("Product Updated Successfully");
+
+            navigate("/admin/products");
+
+        }
+
+        catch (error) {
+
+            console.log(error);
+
+            alert("Unable to update product");
+
+        }
+
+    };
 
     if (!product) {
 
@@ -31,7 +69,7 @@ function EditProduct() {
 
             <AdminLayout>
 
-                <h3>Product Not Found</h3>
+                <h3>Loading...</h3>
 
             </AdminLayout>
 

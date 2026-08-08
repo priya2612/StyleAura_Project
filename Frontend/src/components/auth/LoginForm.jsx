@@ -1,9 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { loginUser } from "../../services/authService";
+import { useAuth } from "../../context/AuthContext";
+
+
 
 import "./LoginForm.css";
 
 function LoginForm() {
+
+    const { login } = useAuth();
 
     const navigate = useNavigate();
 
@@ -15,44 +21,54 @@ function LoginForm() {
 
     const [rememberMe, setRememberMe] = useState(false);
 
-    const [role, setRole] = useState("customer");
+    //const [role, setRole] = useState("customer");
 
-    const handleSubmit = (e) => {
+   const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        if (!email || !password) {
+    if (!email || !password) {
 
-            alert("Please enter email and password.");
+        alert("Please enter email and password.");
+        return;
+    }
 
-            return;
+    try {
 
-        }
-
-        console.log({
+        const response = await loginUser({
 
             email,
-            password,
-            rememberMe
+            password
 
         });
 
-        //      navigate("/");
+        login(response.data);
 
-        localStorage.setItem("role", role);
+        alert("Login Successful");
 
-        if (role === "admin") {
+        if (response.data.role === "ADMIN") {
 
             navigate("/admin/dashboard");
 
-        }
-        else {
+        } else {
 
             navigate("/");
 
         }
 
-    };
+    } catch (error) {
+
+        alert(
+
+            error.response?.data?.message ||
+
+            "Invalid email or password"
+
+        );
+
+    }
+
+};
 
     return (
 
@@ -178,55 +194,7 @@ function LoginForm() {
 
                 </div>
 
-                <div className="mb-3">
-
-                    <label className="form-label">
-
-                        Login As
-
-                    </label>
-
-                    <div>
-
-                        <input
-
-                            type="radio"
-
-                            value="customer"
-
-                            checked={role === "customer"}
-
-                            onChange={(e) => setRole(e.target.value)}
-
-                        />
-
-                        <span className="ms-2 me-4">
-
-                            Customer
-
-                        </span>
-
-                        <input
-
-                            type="radio"
-
-                            value="admin"
-
-                            checked={role === "admin"}
-
-                            onChange={(e) => setRole(e.target.value)}
-
-                        />
-
-                        <span className="ms-2">
-
-                            Admin
-
-                        </span>
-
-                    </div>
-
-                </div>
+               
 
                 <div className="login-options">
 

@@ -1,29 +1,83 @@
-import { useState } from "react";
 import "./ProductForm.css";
+import { useEffect, useState } from "react";
+import { getAllCategories } from "../../services/categoryService";
 
 function ProductForm({ initialData = {}, onSubmit, buttonText }) {
 
     const [formData, setFormData] = useState({
 
-        name: initialData.name || "",
+        name: "",
 
-        category: initialData.category || "",
+        categoryId: "",
 
-        price: initialData.price || "",
+        price: "",
 
-        originalPrice: initialData.originalPrice || "",
+        originalPrice: "",
 
-        stockQuantity: initialData.stockQuantity || "",
+        stockQuantity: "",
 
-        size: initialData.size || "",
+        size: "",
 
-        color: initialData.color || "",
+        color: "",
 
-        description: initialData.description || "",
+        description: "",
 
-        image: initialData.image || ""
+        image: ""
 
     });
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+
+        loadCategories();
+
+    }, []);
+
+    useEffect(() => {
+
+        if (!initialData?.id) return;
+
+        setFormData({
+
+            name: initialData.name || "",
+
+            categoryId: initialData.category?.id || "",
+
+            price: initialData.price?.toString() || "",
+
+            originalPrice: initialData.originalPrice?.toString() || "",
+
+            stockQuantity: initialData.stockQuantity?.toString() || "",
+
+            size: initialData.size || "",
+
+            color: initialData.color || "",
+
+            description: initialData.description || "",
+
+            image: initialData.image || ""
+
+        });
+
+    }, [initialData?.id]);
+    const loadCategories = async () => {
+
+        try {
+
+            const response = await getAllCategories();
+
+            setCategories(response.data);
+
+        }
+
+        catch (error) {
+
+            console.log(error);
+
+        }
+
+    };
 
     function handleChange(e) {
 
@@ -43,7 +97,45 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
 
         e.preventDefault();
 
-        onSubmit(formData);
+        const product = {
+
+            name: formData.name,
+
+            price: Number(formData.price),
+
+            originalPrice: Number(formData.originalPrice),
+
+            discount:
+                formData.originalPrice && formData.price
+                    ? Math.round(
+                        ((Number(formData.originalPrice) - Number(formData.price))
+                            / Number(formData.originalPrice)) * 100
+                    )
+                    : 0,
+
+            size: formData.size,
+
+            color: formData.color,
+
+            stockQuantity: Number(formData.stockQuantity),
+
+            image: formData.image,
+
+            description: formData.description,
+
+            rating: initialData.rating || 0,
+
+            reviews: initialData.reviews || 0,
+
+            category: {
+
+                id: Number(formData.categoryId)
+
+            }
+
+        };
+
+        onSubmit(product);
 
     }
 
@@ -61,19 +153,12 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                     <label>Product Name</label>
 
                     <input
-
                         type="text"
-
                         name="name"
-
                         className="form-control"
-
                         value={formData.name}
-
                         onChange={handleChange}
-
                         required
-
                     />
 
                 </div>
@@ -83,32 +168,29 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                     <label>Category</label>
 
                     <select
-
-                        name="category"
-
+                        name="categoryId"
                         className="form-select"
-
-                        value={formData.category}
-
+                        value={formData.categoryId}
                         onChange={handleChange}
-
                         required
-
                     >
 
-                        <option value="">Select Category</option>
+                        <option value="">
+                            Select Category
+                        </option>
 
-                        <option value="kurtis">Kurtis</option>
+                        {categories.map(category => (
 
-                        <option value="dresses">Dresses</option>
+                            <option
+                                key={category.id}
+                                value={category.id}
+                            >
 
-                        <option value="ethnic-wear">Ethnic Wear</option>
+                                {category.name}
 
-                        <option value="western-wear">Western Wear</option>
+                            </option>
 
-                        <option value="tops">Tops</option>
-
-                        <option value="bottom-wear">Bottom Wear</option>
+                        ))}
 
                     </select>
 
@@ -123,17 +205,11 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                     <label>Price</label>
 
                     <input
-
                         type="number"
-
                         name="price"
-
                         className="form-control"
-
                         value={formData.price}
-
                         onChange={handleChange}
-
                     />
 
                 </div>
@@ -143,17 +219,11 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                     <label>Original Price</label>
 
                     <input
-
                         type="number"
-
                         name="originalPrice"
-
                         className="form-control"
-
                         value={formData.originalPrice}
-
                         onChange={handleChange}
-
                     />
 
                 </div>
@@ -163,17 +233,11 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                     <label>Stock</label>
 
                     <input
-
                         type="number"
-
                         name="stockQuantity"
-
                         className="form-control"
-
                         value={formData.stockQuantity}
-
                         onChange={handleChange}
-
                     />
 
                 </div>
@@ -187,17 +251,11 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                     <label>Size</label>
 
                     <input
-
                         type="text"
-
                         name="size"
-
                         className="form-control"
-
                         value={formData.size}
-
                         onChange={handleChange}
-
                     />
 
                 </div>
@@ -207,17 +265,11 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                     <label>Color</label>
 
                     <input
-
                         type="text"
-
                         name="color"
-
                         className="form-control"
-
                         value={formData.color}
-
                         onChange={handleChange}
-
                     />
 
                 </div>
@@ -226,20 +278,15 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
 
             <div className="mb-3">
 
-                <label>Image URL</label>
+                <label>Image Name</label>
 
                 <input
-
                     type="text"
-
                     name="image"
-
                     className="form-control"
-
                     value={formData.image}
-
                     onChange={handleChange}
-
+                    placeholder="kurti1.jpg"
                 />
 
             </div>
@@ -249,24 +296,18 @@ function ProductForm({ initialData = {}, onSubmit, buttonText }) {
                 <label>Description</label>
 
                 <textarea
-
                     rows="4"
-
                     name="description"
-
                     className="form-control"
-
                     value={formData.description}
-
                     onChange={handleChange}
-
                 />
 
             </div>
 
             <button
-                className="btn btn-primary"
                 type="submit"
+                className="btn btn-primary"
             >
 
                 {buttonText}

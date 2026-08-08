@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./ProductTable.css";
 
-function ProductTable({ products }) {
+function ProductTable({ products, onDelete }) {
 
     return (
 
@@ -16,7 +16,6 @@ function ProductTable({ products }) {
                     className="btn btn-primary"
                 >
                     <i className="bi bi-plus-circle me-2"></i>
-
                     Add Product
                 </Link>
 
@@ -41,97 +40,51 @@ function ProductTable({ products }) {
 
                 <tbody>
 
-                    {
+                    {products.map(product => (
 
-                        products.map(product => (
+                        <tr key={product.id}>
 
-                            <tr key={product.id}>
+                            <td>
 
-                                <td>
+                                <img
+                                    src={`/images/products/${product.image}`}
+                                    alt={product.name}
+                                    className="table-product-image"
+                                />
 
-                                    <img
+                            </td>
 
-                                        src={product.image}
+                            <td>{product.name}</td>
 
-                                        alt={product.name}
+                            <td>
+                                {product.category?.name}
+                            </td>
 
-                                        className="table-product-image"
+                            <td>₹{product.price}</td>
 
-                                    />
+                            <td>{product.stockQuantity}</td>
 
-                                </td>
+                            <td>
 
-                                <td>
+                                <Link
+                                    to={`/admin/products/edit/${product.id}`}
+                                    className="btn btn-warning btn-sm me-2"
+                                >
+                                    <i className="bi bi-pencil"></i>
+                                </Link>
 
-                                    {product.name}
+                                <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => onDelete(product.id)}
+                                >
+                                    <i className="bi bi-trash"></i>
+                                </button>
 
-                                </td>
+                            </td>
 
-                                <td>
+                        </tr>
 
-                                    {product.category}
-
-                                </td>
-
-                                <td>
-
-                                    ₹{product.price}
-
-                                </td>
-
-                                <td>
-
-                                    {product.stockQuantity}
-
-                                </td>
-
-                                <td>
-
-                                    <Link
-
-                                        to={`/admin/products/edit/${product.id}`}
-
-                                        className="btn btn-sm btn-warning me-2"
-
-                                    >
-
-                                        <i className="bi bi-pencil"></i>
-
-                                    </Link>
-
-                                    <button
-
-                                        className="btn btn-sm btn-danger"
-
-                                        onClick={() => {
-
-                                            const confirmDelete = window.confirm(
-
-                                                "Are you sure you want to delete this product?"
-
-                                            );
-
-                                            if (confirmDelete) {
-
-                                                alert("Product Deleted Successfully");
-
-                                            }
-
-                                        }}
-
-                                    >
-
-                                        <i className="bi bi-trash"></i>
-
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        ))
-
-                    }
+                    ))}
 
                 </tbody>
 
